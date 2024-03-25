@@ -26,6 +26,8 @@ public class Sale {
 
     private int quantity;
 
+    private float totalPrice;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;

@@ -8,7 +8,7 @@ public class AddProductDto {
     public String name;
 
     @Min(0)
-    public int price;
+    public float price;
 
     @Min(0)
     public int stock;

@@ -4,6 +4,7 @@ import com.api.store.infra.database.mysql.repositories.MysqlProductRepository;
 import com.api.store.infra.database.mysql.repositories.MysqlSaleRepository;
 import com.api.store.model.entities.mysql.Product;
 import com.api.store.model.entities.mysql.Sale;
+import com.api.store.utils.errors.DiscountCalculator;
 import com.api.store.utils.errors.GenericError;
 import com.api.store.utils.errors.InvalidParamError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class SaleService {
         if (product.getStock() - sale.getQuantity() < 0) throw new GenericError("No enough stock");
 
         sale.setProduct(product);
+        sale.setTotalPrice(DiscountCalculator.calculate(product.getPrice() * sale.getQuantity(), sale.getQuantity()));
         this.saleRepository.save(sale);
 
         product.decreaseStock(sale.getQuantity());

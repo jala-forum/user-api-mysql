@@ -30,6 +30,5 @@ public class ProductService {
         Optional<Product> optionalProduct = this.mysqlProductRepository.findById(UUID.fromString(id));
 
         return optionalProduct.orElse(null);
-
     }
 }
