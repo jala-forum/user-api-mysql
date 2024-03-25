@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -14,9 +15,9 @@ import java.util.Set;
 public class Product {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
-    private String id;
+    private UUID id;
 
-    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<Sale> sales;
 
