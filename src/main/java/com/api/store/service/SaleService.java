@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,5 +31,8 @@ public class SaleService {
 
         sale.setProduct(product.get());
         this.saleRepository.save(sale);
+    }
+    public List<Sale> get() {
+        return this.saleRepository.findAll();
     }
 }

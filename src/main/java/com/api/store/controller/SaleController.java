@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/product/sale")
+@RequestMapping("/sale")
 public class SaleController {
     private final SaleService saleService;
 
@@ -25,5 +27,10 @@ public class SaleController {
         sale.setQuantity(data.quantity);
 
         this.saleService.save(sale, data.productId);
+    }
+
+    @RequestMapping
+    List<Sale> getSale() {
+        return this.saleService.get();
     }
 }
