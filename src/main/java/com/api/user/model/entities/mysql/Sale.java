@@ -19,7 +19,7 @@ public class Sale {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
-    private Product ProductId;
+    private Product productId;
 
     private String quantity;
 

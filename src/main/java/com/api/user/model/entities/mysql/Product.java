@@ -16,7 +16,7 @@ public class Product {
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private String id;
 
-    @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<Sale> sales;
 
