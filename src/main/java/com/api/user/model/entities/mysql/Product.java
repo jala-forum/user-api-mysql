@@ -1,11 +1,11 @@
 package com.api.user.model.entities.mysql;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
+
+import java.util.Set;
 
 @Setter
 @Getter
@@ -15,6 +15,10 @@ public class Product {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private String id;
+
+    @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Sale> sales;
 
     private String name;
 
