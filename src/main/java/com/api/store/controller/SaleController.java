@@ -3,6 +3,7 @@ package com.api.store.controller;
 import com.api.store.dto.sale.AddSaleDto;
 import com.api.store.model.entities.mysql.Sale;
 import com.api.store.service.SaleService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class SaleController {
     }
 
     @PostMapping
-    void addSale(@RequestBody AddSaleDto data) {
+    void addSale(@RequestBody @Valid AddSaleDto data) {
         Sale sale = new Sale();
         sale.setQuantity(data.quantity);
 

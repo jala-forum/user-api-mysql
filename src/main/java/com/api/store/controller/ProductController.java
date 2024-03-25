@@ -3,6 +3,7 @@ package com.api.store.controller;
 import com.api.store.dto.product.AddProductDto;
 import com.api.store.model.entities.mysql.Product;
 import com.api.store.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class ProductController {
     }
 
     @PostMapping
-    void addProduct(@RequestBody AddProductDto data) {
+    void addProduct(@RequestBody @Valid  AddProductDto data) {
         Product product = new Product();
         product.setName(data.name);
         product.setPrice(data.price);
