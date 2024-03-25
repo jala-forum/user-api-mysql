@@ -4,10 +4,9 @@ import com.api.store.dto.product.AddProductDto;
 import com.api.store.model.entities.mysql.Product;
 import com.api.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -27,5 +26,15 @@ public class ProductController {
         product.setStock(data.stock);
 
         this.productService.save(product);
+    }
+
+    @RequestMapping
+    List<Product> getAllProducts() {
+        return this.productService.getAll();
+    }
+
+    @RequestMapping(value = "/{id}")
+    Product getProductById(@PathVariable("id") String id) {
+        return this.productService.getById(id);
     }
 }
