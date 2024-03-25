@@ -4,6 +4,7 @@ import com.api.store.infra.database.mysql.repositories.MysqlProductRepository;
 import com.api.store.infra.database.mysql.repositories.MysqlSaleRepository;
 import com.api.store.model.entities.mysql.Product;
 import com.api.store.model.entities.mysql.Sale;
+import com.api.store.utils.errors.GenericError;
 import com.api.store.utils.errors.InvalidParamError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,18 @@ public class SaleService {
     }
 
     public void save(Sale sale, String productId) {
-        Optional<Product> product = this.productRepository.findById(UUID.fromString(productId));
+        Optional<Product> optionalProduct = this.productRepository.findById(UUID.fromString(productId));
 
-        if (product.isEmpty()) throw new InvalidParamError("productId");
+        if (optionalProduct.isEmpty()) throw new InvalidParamError("productId");
 
-        sale.setProduct(product.get());
+        Product product = optionalProduct.get();
+        if (product.getStock() - sale.getQuantity() < 0) throw new GenericError("No enough stock");
+
+        sale.setProduct(product);
         this.saleRepository.save(sale);
+
+        product.decreaseStock(sale.getQuantity());
+        this.productRepository.save(product);
     }
     public List<Sale> get() {
         return this.saleRepository.findAll();

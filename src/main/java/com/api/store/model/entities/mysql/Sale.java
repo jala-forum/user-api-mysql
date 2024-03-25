@@ -24,7 +24,7 @@ public class Sale {
     @JsonBackReference
     private Product product;
 
-    private String quantity;
+    private int quantity;
 
     @Column(name = "created_at")
     @CreationTimestamp

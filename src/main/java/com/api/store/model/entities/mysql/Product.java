@@ -28,4 +28,9 @@ public class Product {
     private int price;
 
     private int stock;
+
+    public void decreaseStock(int quantity) {
+        if (quantity > stock) return;
+        this.stock -= quantity;
+    }
 }
