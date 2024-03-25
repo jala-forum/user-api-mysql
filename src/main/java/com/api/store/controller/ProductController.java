@@ -1,8 +1,8 @@
-package com.api.user.controller;
+package com.api.store.controller;
 
-import com.api.user.dto.product.AddProductDto;
-import com.api.user.model.entities.mysql.Product;
-import com.api.user.service.ProductService;
+import com.api.store.dto.product.AddProductDto;
+import com.api.store.model.entities.mysql.Product;
+import com.api.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

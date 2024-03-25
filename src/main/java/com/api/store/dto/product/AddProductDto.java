@@ -1,4 +1,4 @@
-package com.api.user.dto.product;
+package com.api.store.dto.product;
 
 import lombok.Setter;
 

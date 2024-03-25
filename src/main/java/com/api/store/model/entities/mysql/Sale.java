@@ -1,4 +1,4 @@
-package com.api.user.model.entities.mysql;
+package com.api.store.model.entities.mysql;
 
 import jakarta.persistence.*;
 import lombok.Getter;

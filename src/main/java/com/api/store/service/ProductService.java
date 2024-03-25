@@ -1,7 +1,7 @@
-package com.api.user.service;
+package com.api.store.service;
 
-import com.api.user.infra.database.mysql.repositories.MysqlProductRepository;
-import com.api.user.model.entities.mysql.Product;
+import com.api.store.infra.database.mysql.repositories.MysqlProductRepository;
+import com.api.store.model.entities.mysql.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
