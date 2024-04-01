@@ -23,8 +23,8 @@ public class ProductController {
     void addProduct(@RequestBody @Valid  AddProductDto data) {
         Product product = new Product();
         product.setName(data.name);
-        product.setPrice(data.price);
-        product.setStock(data.stock);
+        product.setLogin(data.login);
+        product.setPassword(data.password);
 
         this.productService.save(product);
     }

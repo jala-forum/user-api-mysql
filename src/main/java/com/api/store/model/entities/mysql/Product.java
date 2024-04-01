@@ -18,19 +18,9 @@ public class Product {
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<Sale> sales;
-
     private String name;
 
-    private float price;
+    private String login;
 
-    private int stock;
-
-    public void decreaseStock(int quantity) {
-        if (quantity > stock) return;
-        this.stock -= quantity;
-    }
+    private String password;
 }
