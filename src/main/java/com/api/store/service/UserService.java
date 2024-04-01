@@ -35,4 +35,8 @@ public class UserService {
     public void deleteById(String id) {
         this.mysqlProductRepository.deleteById(UUID.fromString(id));
     }
+
+    public void editById(User product) {
+        this.mysqlProductRepository.save(product);
+    }
 }
