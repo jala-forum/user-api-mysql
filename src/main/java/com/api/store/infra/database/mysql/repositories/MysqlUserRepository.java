@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface MysqlProductRepository extends JpaRepository<User, UUID> {
+public interface MysqlUserRepository extends JpaRepository<User, UUID> {
 }
