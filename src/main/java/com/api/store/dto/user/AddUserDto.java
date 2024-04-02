@@ -1,7 +1,6 @@
-package com.api.store.dto.product;
+package com.api.store.dto.user;
 
 import jakarta.validation.constraints.Email;
-import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 public record AddUserDto (

@@ -1,7 +1,7 @@
 package com.api.store.controller;
 
-import com.api.store.dto.product.AddUserDto;
-import com.api.store.dto.product.EditUserDto;
+import com.api.store.dto.user.AddUserDto;
+import com.api.store.dto.user.EditUserDto;
 import com.api.store.model.entities.mysql.User;
 import com.api.store.service.UserService;
 import jakarta.validation.Valid;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
@@ -22,22 +22,22 @@ public class UserController {
     }
 
     @PostMapping
-    void addProduct(@RequestBody @Valid AddUserDto data) {
-        User product = new User();
-        product.setName(data.name());
-        product.setLogin(data.login());
-        product.setPassword(data.password());
+    void addUser(@RequestBody @Valid AddUserDto data) {
+        User user = new User();
+        user.setName(data.name());
+        user.setLogin(data.login());
+        user.setPassword(data.password());
 
-        this.userService.save(product);
+        this.userService.save(user);
     }
 
     @RequestMapping
-    List<User> getAllProducts() {
+    List<User> getAllUsers() {
         return this.userService.getAll();
     }
 
     @RequestMapping(value = "/{id}")
-    User getProductById(@PathVariable("id") String id) {
+    User getUserById(@PathVariable("id") String id) {
         return this.userService.getById(id);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    void editUserById(@PathVariable("id") String id, @RequestBody() EditUserDto data) {
+    void editUserById(@PathVariable("id") String id, @RequestBody() @Valid EditUserDto data) {
         User user = new User();
         user.setId(UUID.fromString(id));
         user.setLogin(data.login());

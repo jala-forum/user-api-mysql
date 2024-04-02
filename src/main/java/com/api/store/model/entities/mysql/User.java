@@ -10,7 +10,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @Entity
-@Table(name = "product")
+@Table(name = "user")
 public class User {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)

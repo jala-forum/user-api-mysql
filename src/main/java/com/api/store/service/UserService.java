@@ -18,8 +18,8 @@ public class UserService {
         this.mysqlUserRepository = mysqlUserRepository;
     }
 
-    public void save(User product) {
-        this.mysqlUserRepository.save(product);
+    public void save(User user) {
+        this.mysqlUserRepository.save(user);
     }
 
     public List<User> getAll() {
@@ -27,16 +27,16 @@ public class UserService {
     }
 
     public User getById(String id) {
-        Optional<User> optionalProduct = this.mysqlUserRepository.findById(UUID.fromString(id));
+        Optional<User> optionalUser = this.mysqlUserRepository.findById(UUID.fromString(id));
 
-        return optionalProduct.orElse(null);
+        return optionalUser.orElse(null);
     }
 
     public void deleteById(String id) {
         this.mysqlUserRepository.deleteById(UUID.fromString(id));
     }
 
-    public void editById(User product) {
-        this.mysqlUserRepository.save(product);
+    public void editById(User user) {
+        this.mysqlUserRepository.save(user);
     }
 }
