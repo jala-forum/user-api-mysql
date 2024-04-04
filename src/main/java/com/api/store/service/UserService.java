@@ -3,10 +3,12 @@ package com.api.store.service;
 import com.api.store.infra.database.mysql.repositories.MysqlUserRepository;
 import com.api.store.model.entities.mysql.User;
 import com.api.store.utils.errors.GenericError;
+import com.api.store.utils.errors.InvalidParamError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,8 +43,13 @@ public class UserService {
     }
 
     public void editById(User user) {
-        Optional<User> userOptional = this.mysqlUserRepository.findByLogin(user.getLogin());
-        if (userOptional.isPresent()) throw new GenericError("User already exists");
+        Optional<User> userByIdOptional = this.mysqlUserRepository.findById(user.getId());
+        if (userByIdOptional.isEmpty()) throw new InvalidParamError("user_id");
+
+        Optional<User> userByEmailOptional = this.mysqlUserRepository.findByLogin(user.getLogin());
+        if (userByEmailOptional.isPresent() && Objects.equals(userByEmailOptional.get().getLogin(), userByIdOptional.get().getLogin())) {
+            throw new GenericError("User already exists");
+        }
 
         this.mysqlUserRepository.save(user);
     }
