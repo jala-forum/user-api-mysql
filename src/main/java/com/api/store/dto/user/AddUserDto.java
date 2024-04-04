@@ -8,6 +8,6 @@ public record AddUserDto (
         String name,
         @Email()
         String login,
-        @Length(min = 6, max = 100)
+        @Length(min = 8, max = 100)
         String password)
 {}
