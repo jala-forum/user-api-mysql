@@ -41,6 +41,7 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.2.4'
+    implementation 'org.mindrot:jbcrypt:0.4'
 }
 
 tasks.named('test') {
