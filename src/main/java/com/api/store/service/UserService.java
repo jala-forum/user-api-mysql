@@ -54,9 +54,11 @@ public class UserService {
             throw new GenericError("User already exists");
         }
 
-        boolean isPasswordUpdated = user.getPassword().equals(userByIdOptional.get().getPassword());
+        boolean isPasswordUpdated = !BcryptConfig.verifyHash(user.getPassword(), userByIdOptional.get().getPassword());
         if (isPasswordUpdated) {
             user.setPassword(BcryptConfig.hash(user.getPassword()));
+        } else {
+            user.setPassword(userByIdOptional.get().getPassword());
         }
 
         this.mysqlUserRepository.save(user);
