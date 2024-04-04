@@ -50,7 +50,7 @@ public class UserService {
         if (userByIdOptional.isEmpty()) throw new InvalidParamError("user_id");
 
         Optional<User> userByEmailOptional = this.mysqlUserRepository.findByLogin(user.getLogin());
-        if (userByEmailOptional.isPresent() && Objects.equals(userByEmailOptional.get().getLogin(), userByIdOptional.get().getLogin())) {
+        if (userByEmailOptional.isPresent() && !Objects.equals(userByEmailOptional.get().getLogin(), userByIdOptional.get().getLogin())) {
             throw new GenericError("User already exists");
         }
 
