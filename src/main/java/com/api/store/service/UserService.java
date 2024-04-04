@@ -2,6 +2,7 @@ package com.api.store.service;
 
 import com.api.store.infra.database.mysql.repositories.MysqlUserRepository;
 import com.api.store.model.entities.mysql.User;
+import com.api.store.utils.errors.GenericError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ public class UserService {
     }
 
     public void save(User user) {
+        Optional<User> userOptional = this.mysqlUserRepository.findByLogin(user.getLogin());
+        if (userOptional.isPresent()) throw new GenericError("User already exists");
+
         this.mysqlUserRepository.save(user);
     }
 
@@ -37,6 +41,9 @@ public class UserService {
     }
 
     public void editById(User user) {
+        Optional<User> userOptional = this.mysqlUserRepository.findByLogin(user.getLogin());
+        if (userOptional.isPresent()) throw new GenericError("User already exists");
+
         this.mysqlUserRepository.save(user);
     }
 }
