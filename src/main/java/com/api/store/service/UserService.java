@@ -63,4 +63,11 @@ public class UserService {
 
         this.mysqlUserRepository.save(user);
     }
+
+    public User getByLogin(String login) {
+        Optional<User> userOptional = this.mysqlUserRepository.findByLogin(login);
+        if (userOptional.isEmpty()) throw new InvalidParamError("login");
+        return userOptional.get();
+    }
+
 }
