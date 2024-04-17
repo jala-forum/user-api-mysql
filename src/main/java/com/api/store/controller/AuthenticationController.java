@@ -1,6 +1,6 @@
 package com.api.store.controller;
 
-import com.api.store.dto.authentication.request.HashDto;
+import com.api.store.dto.authentication.request.HashRequestDto;
 import com.api.store.dto.authentication.response.HashResponseDto;
 import com.api.store.model.entities.mysql.User;
 import com.api.store.service.UserService;
@@ -27,7 +27,7 @@ public class AuthenticationController {
     }
 
     @PostMapping
-    public HashResponseDto hash(@RequestBody @Valid HashDto data) {
+    public HashResponseDto hash(@RequestBody @Valid HashRequestDto data) {
          User userByEmail = this.userService.getByLogin(data.login());
 
          boolean isPasswordOk = BcryptConfig.verifyHash(data.password(), userByEmail.getPassword());

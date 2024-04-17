@@ -1,7 +1,7 @@
 package com.api.store.controller;
 
-import com.api.store.dto.user.request.AddUserDto;
-import com.api.store.dto.user.request.EditUserDto;
+import com.api.store.dto.user.request.AddUserRequestDto;
+import com.api.store.dto.user.request.EditUserRequestDto;
 import com.api.store.model.entities.mysql.User;
 import com.api.store.service.UserService;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping
-    void addUser(@RequestBody @Valid AddUserDto data) {
+    void addUser(@RequestBody @Valid AddUserRequestDto data) {
         User user = new User();
         user.setName(data.name());
         user.setLogin(data.login());
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    void editUserById(@PathVariable("id") String id, @RequestBody() @Valid EditUserDto data) {
+    void editUserById(@PathVariable("id") String id, @RequestBody() @Valid EditUserRequestDto data) {
         User user = new User();
         user.setId(UUID.fromString(id));
         user.setLogin(data.login());
