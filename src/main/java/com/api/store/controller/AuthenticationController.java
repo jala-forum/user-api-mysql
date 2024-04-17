@@ -1,6 +1,7 @@
 package com.api.store.controller;
 
 import com.api.store.dto.authentication.request.HashDto;
+import com.api.store.dto.authentication.response.HashResponseDto;
 import com.api.store.model.entities.mysql.User;
 import com.api.store.service.UserService;
 import com.api.store.utils.encryption.JwtTokenUtil;
@@ -26,7 +27,7 @@ public class AuthenticationController {
     }
 
     @PostMapping
-    public String hash(@RequestBody @Valid HashDto data) {
+    public HashResponseDto hash(@RequestBody @Valid HashDto data) {
          User userByEmail = this.userService.getByLogin(data.login());
 
          boolean isPasswordOk = BcryptConfig.verifyHash(data.password(), userByEmail.getPassword());
@@ -34,6 +35,6 @@ public class AuthenticationController {
 
          String jwt = this.jwtTokenUtil.generateToken(userByEmail);
 
-        return "Bearer " + jwt;
+        return new HashResponseDto("Bearer " + jwt);
     }
 }
