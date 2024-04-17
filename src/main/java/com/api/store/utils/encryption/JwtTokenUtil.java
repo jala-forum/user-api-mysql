@@ -1,33 +1,49 @@
 package com.api.store.utils.encryption;
 
 import com.api.store.model.entities.mysql.User;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Generated;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
-@Component
-public class JwtTokenUtil implements Serializable {
-    @Value("${jwt.secret}")
+@Service
+public class JwtTokenUtil {
+    @Value("${api.security.token.secret}")
     private String secret;
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    public String generateToken(User user) {
-        Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, user.getId().toString());
+    public String generateToken(User user){
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            String token = JWT.create()
+                    .withIssuer("parkingcontrol-api")
+                    .withSubject(user.getId().toString())
+                    .sign(algorithm);
+            return token;
+        }catch (JWTCreationException exception){
+            throw new RuntimeException("Erro while generate token", exception);
+        }
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    public String validateToken(String token){
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.require(algorithm)
+                    .withIssuer("parkingcontrol-api")
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (JWTVerificationException exception){
+            return "Token Invalid or Expired";
+        }
+    }
 
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
+    private Instant generateExpirationDate(){
+        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }
