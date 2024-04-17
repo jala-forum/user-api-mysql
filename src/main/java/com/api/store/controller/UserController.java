@@ -1,7 +1,7 @@
 package com.api.store.controller;
 
-import com.api.store.dto.user.AddUserDto;
-import com.api.store.dto.user.EditUserDto;
+import com.api.store.dto.user.request.AddUserDto;
+import com.api.store.dto.user.request.EditUserDto;
 import com.api.store.model.entities.mysql.User;
 import com.api.store.service.UserService;
 import jakarta.validation.Valid;

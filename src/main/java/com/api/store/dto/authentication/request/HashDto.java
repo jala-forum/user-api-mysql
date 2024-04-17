@@ -1,4 +1,4 @@
-package com.api.store.dto.authentication;
+package com.api.store.dto.authentication.request;
 
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;

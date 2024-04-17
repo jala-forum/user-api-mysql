@@ -1,6 +1,6 @@
 package com.api.store.controller;
 
-import com.api.store.dto.authentication.HashDto;
+import com.api.store.dto.authentication.request.HashDto;
 import com.api.store.model.entities.mysql.User;
 import com.api.store.service.UserService;
 import com.api.store.utils.encryption.JwtTokenUtil;
