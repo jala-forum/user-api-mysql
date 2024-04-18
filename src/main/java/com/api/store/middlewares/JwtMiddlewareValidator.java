@@ -2,6 +2,7 @@ package com.api.store.middlewares;
 
 
 import com.api.store.utils.encryption.JwtTokenUtil;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
@@ -24,9 +25,19 @@ public class JwtMiddlewareValidator extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader("Authorization");
+        String requestUri = request.getRequestURI();
+        if (requestUri.startsWith("/auth") && !request.getMethod().equals("POST")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-        System.out.println(this.jwtTokenUtil.getTokenInfo(accessToken));
-        filterChain.doFilter(request, response);
+        String accessToken = request.getHeader("Authorization");
+        try {
+            String userId = this.jwtTokenUtil.getTokenInfo(accessToken);
+            request.setAttribute("userId", userId);
+            filterChain.doFilter(request, response);
+        } catch (JWTVerificationException exception) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
+        }
     }
 }

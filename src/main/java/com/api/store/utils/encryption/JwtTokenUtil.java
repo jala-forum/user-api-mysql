@@ -31,16 +31,12 @@ public class JwtTokenUtil {
     }
 
     public String getTokenInfo(String token){
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.require(algorithm)
-                    .withIssuer("parkingcontrol-api")
-                    .build()
-                    .verify(token)
-                    .getSubject();
-        } catch (JWTVerificationException exception){
-            return "Token Invalid or Expired";
-        }
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.require(algorithm)
+                .withIssuer("parkingcontrol-api")
+                .build()
+                .verify(token)
+                .getSubject();
     }
 
     private Instant generateExpirationDate(){

@@ -4,6 +4,7 @@ import com.api.store.dto.user.request.AddUserRequestDto;
 import com.api.store.dto.user.request.EditUserRequestDto;
 import com.api.store.model.entities.mysql.User;
 import com.api.store.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,25 +32,23 @@ public class UserController {
         this.userService.save(user);
     }
 
-    @RequestMapping
-    List<User> getAllUsers() {
-        return this.userService.getAll();
+    @RequestMapping()
+    User getUserById(HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+        return this.userService.getById(userId);
     }
 
-    @RequestMapping(value = "/{id}")
-    User getUserById(@PathVariable("id") String id) {
-        return this.userService.getById(id);
+    @DeleteMapping()
+    void deleteUserById( HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+        this.userService.deleteById(userId);
     }
 
-    @DeleteMapping(value = "/{id}")
-    void deleteUserById(@PathVariable("id") String id) {
-        this.userService.deleteById(id);
-    }
-
-    @PutMapping(value = "/{id}")
-    void editUserById(@PathVariable("id") String id, @RequestBody() @Valid EditUserRequestDto data) {
+    @PutMapping()
+    void editUserById(HttpServletRequest request, @RequestBody() @Valid EditUserRequestDto data) {
+        String userId = (String) request.getAttribute("userId");
         User user = new User();
-        user.setId(UUID.fromString(id));
+        user.setId(UUID.fromString(userId));
         user.setLogin(data.login());
         user.setName(data.name());
         user.setPassword(data.password());
