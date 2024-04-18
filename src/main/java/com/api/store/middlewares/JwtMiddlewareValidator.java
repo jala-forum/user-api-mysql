@@ -26,7 +26,9 @@ public class JwtMiddlewareValidator extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestUri = request.getRequestURI();
-        if (requestUri.startsWith("/auth") && !request.getMethod().equals("POST")) {
+        boolean isSignInRouter = requestUri.startsWith("/user") && request.getMethod().equals("POST");
+        boolean isAuthRouter = requestUri.startsWith("/auth");
+        if (isAuthRouter || isSignInRouter) {
             filterChain.doFilter(request, response);
             return;
         }
