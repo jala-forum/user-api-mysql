@@ -30,7 +30,7 @@ public class JwtTokenUtil {
         }
     }
 
-    public String validateToken(String token){
+    public String getTokenInfo(String token){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
