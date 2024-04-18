@@ -5,7 +5,7 @@ import com.api.store.dto.authentication.response.HashResponseDto;
 import com.api.store.model.entities.mysql.User;
 import com.api.store.service.UserService;
 import com.api.store.utils.encryption.JwtTokenUtil;
-import com.api.store.utils.errors.BcryptConfig;
+import com.api.store.utils.encryption.BcryptConfig;
 import com.api.store.utils.errors.InvalidParamError;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.api.store.service;
 
 import com.api.store.infra.database.mysql.repositories.MysqlUserRepository;
 import com.api.store.model.entities.mysql.User;
-import com.api.store.utils.errors.BcryptConfig;
+import com.api.store.utils.encryption.BcryptConfig;
 import com.api.store.utils.errors.GenericError;
 import com.api.store.utils.errors.InvalidParamError;
 import org.springframework.beans.factory.annotation.Autowired;

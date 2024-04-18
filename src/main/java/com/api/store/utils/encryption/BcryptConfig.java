@@ -1,4 +1,4 @@
-package com.api.store.utils.errors;
+package com.api.store.utils.encryption;
 
 import org.mindrot.jbcrypt.BCrypt;
 
