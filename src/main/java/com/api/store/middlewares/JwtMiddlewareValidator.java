@@ -3,6 +3,7 @@ package com.api.store.middlewares;
 
 import com.api.store.utils.encryption.JwtTokenUtil;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class JwtMiddlewareValidator extends OncePerRequestFilter {
@@ -28,6 +31,7 @@ public class JwtMiddlewareValidator extends OncePerRequestFilter {
         String requestUri = request.getRequestURI();
         boolean isSignInRouter = requestUri.startsWith("/user") && request.getMethod().equals("POST");
         boolean isAuthRouter = requestUri.startsWith("/auth");
+
         if (isAuthRouter || isSignInRouter) {
             filterChain.doFilter(request, response);
             return;
@@ -35,11 +39,16 @@ public class JwtMiddlewareValidator extends OncePerRequestFilter {
 
         String accessToken = request.getHeader("Authorization");
         try {
-            String userId = this.jwtTokenUtil.getTokenInfo(accessToken);
+            Map<String, Claim> claims = this.jwtTokenUtil.getTokenClaims(accessToken);
+            String userId = this.jwtTokenUtil.getTokenSubject(accessToken);
+            List<String> roles = claims.get("roles").asList(String.class);
             request.setAttribute("userId", userId);
+            request.setAttribute("roles", roles);
             filterChain.doFilter(request, response);
         } catch (JWTVerificationException exception) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
+        } catch (Exception err) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid credentials");
         }
     }
 }
