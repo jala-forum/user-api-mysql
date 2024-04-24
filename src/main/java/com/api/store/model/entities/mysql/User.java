@@ -30,4 +30,9 @@ public class User {
             cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Topic> topics;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Idea> ideas;
 }

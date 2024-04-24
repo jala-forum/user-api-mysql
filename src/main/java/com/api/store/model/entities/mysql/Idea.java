@@ -19,12 +19,18 @@ public class Idea {
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
 
+    @Column(nullable = false, length = 5000)
     private String text;
 
     @OneToMany(mappedBy = "idea", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Vote> votes;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idea_id", referencedColumnName = "id")

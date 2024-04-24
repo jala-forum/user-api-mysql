@@ -23,7 +23,10 @@ public class Topic {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User user;
+
+    @Column(nullable = false)
     private String title;
+
     private String description;
 
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY,
