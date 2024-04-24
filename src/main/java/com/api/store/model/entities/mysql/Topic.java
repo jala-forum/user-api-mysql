@@ -26,13 +26,7 @@ public class Topic {
 
     @Column(nullable = false)
     private String title;
-
     private String description;
-
-    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<Vote> votes;
 
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)

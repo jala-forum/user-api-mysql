@@ -22,11 +22,6 @@ public class Vote {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "topic_id", referencedColumnName = "id")
-    @JsonBackReference
-    private Topic topic;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idea_id", referencedColumnName = "id")
     @JsonBackReference
     private Idea idea;
