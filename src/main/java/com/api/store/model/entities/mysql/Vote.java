@@ -11,7 +11,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @Entity
-@Table(name = "vote")
+@Table(name = "idea")
 public class Vote {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
@@ -25,4 +25,9 @@ public class Vote {
     @JoinColumn(name = "topics_id", referencedColumnName = "id")
     @JsonBackReference
     private Topics topics;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idea_id", referencedColumnName = "id")
+    @JsonBackReference
+    private Idea idea;
 }
