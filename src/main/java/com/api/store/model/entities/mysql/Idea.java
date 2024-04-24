@@ -33,7 +33,7 @@ public class Idea {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idea_id", referencedColumnName = "id")
+    @JoinColumn(name = "topic_id", referencedColumnName = "id")
     @JsonBackReference
     private Topic topic;
 }

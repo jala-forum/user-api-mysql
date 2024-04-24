@@ -3,10 +3,13 @@ package com.api.store.service;
 import com.api.store.infra.database.mysql.repositories.MysqlIdeaRepository;
 import com.api.store.infra.database.mysql.repositories.MysqlTopicRepository;
 import com.api.store.infra.database.mysql.repositories.MysqlUserRepository;
+import com.api.store.infra.database.mysql.repositories.MysqlVoteRepository;
 import com.api.store.model.entities.mysql.Idea;
 import com.api.store.model.entities.mysql.Topic;
 import com.api.store.model.entities.mysql.User;
+import com.api.store.model.entities.mysql.Vote;
 import com.api.store.utils.errors.ForbiddenError;
+import com.api.store.utils.errors.GenericError;
 import com.api.store.utils.errors.InvalidParamError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +23,15 @@ public class IdeaService {
     private final MysqlIdeaRepository ideaRepository;
     private final MysqlTopicRepository topicRepository;
     private final MysqlUserRepository userRepository;
+    private final MysqlVoteRepository voteRepository;
 
 
     @Autowired
-    public IdeaService(MysqlIdeaRepository ideaRepository, MysqlTopicRepository topicRepository, MysqlUserRepository userRepository) {
+    public IdeaService(MysqlIdeaRepository ideaRepository, MysqlTopicRepository topicRepository, MysqlUserRepository userRepository, MysqlVoteRepository voteRepository) {
         this.ideaRepository = ideaRepository;
         this.topicRepository = topicRepository;
         this.userRepository = userRepository;
+        this.voteRepository = voteRepository;
     }
 
     public void add(String text, String topicId, String userId) {
@@ -62,8 +67,24 @@ public class IdeaService {
         Idea idea = optionalIdea.get();
         if (!idea.getUser().getId().toString().equals(userId)) throw new ForbiddenError();
 
-        System.out.println();
-
         this.ideaRepository.deleteById(UUID.fromString(ideaId));
+    }
+
+    public void addVote(String ideaId, String userId) {
+        Optional<Idea> optionalIdea =  this.ideaRepository.findById(UUID.fromString(ideaId));
+        if (optionalIdea.isEmpty()) throw new InvalidParamError("ideaId");
+
+        Optional<User> optionalUser = this.userRepository.findById(UUID.fromString(userId));
+        if (optionalUser.isEmpty()) throw new InvalidParamError("userId");
+
+        Optional<Vote> optionalVote = this.voteRepository.findByUser(optionalUser.get());
+        if (optionalVote.isPresent()) throw new GenericError("User has been already voted");
+
+        Idea idea = optionalIdea.get();
+        Vote vote = new Vote();
+        vote.setIdea(idea);
+        vote.setUser(optionalUser.get());
+
+        this.voteRepository.save(vote);
     }
 }

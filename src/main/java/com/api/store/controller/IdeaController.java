@@ -1,6 +1,7 @@
 package com.api.store.controller;
 
 import com.api.store.dto.idea.request.AddIdeaRequestDto;
+import com.api.store.dto.idea.request.AddVoteIdeaDto;
 import com.api.store.model.entities.mysql.Idea;
 import com.api.store.service.IdeaService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,5 +40,12 @@ public class IdeaController {
         String userId = (String) request.getAttribute("userId");
 
         this.ideaService.deleteById(id, userId);
+    }
+
+    @PostMapping("/vote")
+    public void addVoteForIdea(@RequestBody @Valid AddVoteIdeaDto data, HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+
+        this.ideaService.addVote(data.ideaId(), userId);
     }
 }
