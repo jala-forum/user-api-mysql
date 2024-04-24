@@ -1,5 +1,6 @@
 package com.api.store.model.entities.mysql;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @Entity
-@Table(name = "topics")
+@Table(name = "idea")
 public class Idea {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
@@ -22,6 +23,10 @@ public class Idea {
 
     @OneToMany(mappedBy = "idea", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     private Set<Vote> votes;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idea_id", referencedColumnName = "id")
+    private Topic topic;
 }

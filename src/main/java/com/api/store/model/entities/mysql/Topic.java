@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "topics")
-public class Topics {
+public class Topic {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
@@ -24,9 +24,13 @@ public class Topics {
     private String title;
     private String description;
 
-    @OneToMany(mappedBy = "topics", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Vote> votes;
-//    private Set<Ideas> ideas;
+
+    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Idea> ideas;
 }
