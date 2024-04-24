@@ -10,7 +10,9 @@ import com.api.store.utils.errors.InvalidParamError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -43,5 +45,13 @@ public class IdeaService {
         idea.setUser(user);
 
         this.ideaRepository.save(idea);
+    }
+
+    public Set<Idea> getIdeaByTopicId(String topicId) {
+        Optional<Topic> optionalTopic = this.topicRepository.findById(UUID.fromString(topicId));
+        if (optionalTopic.isEmpty()) throw new InvalidParamError("topicId");
+
+        Topic topic = optionalTopic.get();
+        return topic.getIdeas();
     }
 }

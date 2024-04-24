@@ -34,5 +34,6 @@ public class Idea {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idea_id", referencedColumnName = "id")
+    @JsonBackReference
     private Topic topic;
 }
