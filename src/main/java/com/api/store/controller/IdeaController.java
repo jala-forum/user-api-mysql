@@ -34,4 +34,11 @@ public class IdeaController {
     public Set<Idea> getIdeaByTopicId(@PathVariable String id) {
         return this.ideaService.getIdeaByTopicId(id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteIdeaById(@PathVariable String id, HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+
+        this.ideaService.deleteById(id, userId);
+    }
 }

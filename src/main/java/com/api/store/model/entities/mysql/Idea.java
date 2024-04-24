@@ -27,7 +27,7 @@ public class Idea {
     @JsonBackReference
     private Set<Vote> votes;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User user;

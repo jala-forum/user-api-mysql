@@ -6,11 +6,11 @@ import com.api.store.infra.database.mysql.repositories.MysqlUserRepository;
 import com.api.store.model.entities.mysql.Idea;
 import com.api.store.model.entities.mysql.Topic;
 import com.api.store.model.entities.mysql.User;
+import com.api.store.utils.errors.ForbiddenError;
 import com.api.store.utils.errors.InvalidParamError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -53,5 +53,17 @@ public class IdeaService {
 
         Topic topic = optionalTopic.get();
         return topic.getIdeas();
+    }
+
+    public void deleteById(String ideaId, String userId) {
+        Optional<Idea> optionalIdea = this.ideaRepository.findById(UUID.fromString(ideaId));
+        if (optionalIdea.isEmpty()) throw new InvalidParamError("ideaId");
+
+        Idea idea = optionalIdea.get();
+        if (!idea.getUser().getId().toString().equals(userId)) throw new ForbiddenError();
+
+        System.out.println();
+
+        this.ideaRepository.deleteById(UUID.fromString(ideaId));
     }
 }
