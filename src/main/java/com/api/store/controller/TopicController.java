@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/topic")
 public class TopicController {
@@ -28,5 +30,10 @@ public class TopicController {
         BeanUtils.copyProperties(data, topic);
         String userId = (String) request.getAttribute("userId");
         this.topicService.save(topic, userId);
+    }
+
+    @RequestMapping
+    public List<Topic> getTopics() {
+        return this.topicService.getTopic();
     }
 }
