@@ -43,7 +43,7 @@ public class IdeaController {
     }
 
     @PostMapping("/vote")
-    public void addVoteForIdea(@RequestBody @Valid AddVoteIdeaDto data, HttpServletRequest request) {
+    public void addVoteIdea(@RequestBody @Valid AddVoteIdeaDto data, HttpServletRequest request) {
         String userId = (String) request.getAttribute("userId");
 
         this.ideaService.addVote(data.ideaId(), userId);
