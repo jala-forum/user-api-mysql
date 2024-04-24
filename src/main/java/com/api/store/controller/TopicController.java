@@ -3,6 +3,7 @@ package com.api.store.controller;
 import com.api.store.dto.topic.request.AddTopicRequestDto;
 import com.api.store.model.entities.mysql.Topic;
 import com.api.store.service.TopicService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,10 @@ public class TopicController {
     }
 
     @PostMapping
-    public void createTopic(@RequestBody @Valid AddTopicRequestDto data) {
+    public void createTopic(@RequestBody @Valid AddTopicRequestDto data, HttpServletRequest request) {
         Topic topic = new Topic();
         BeanUtils.copyProperties(data, topic);
-        this.topicService.save(topic);
+        String userId = (String) request.getAttribute("userId");
+        this.topicService.save(topic, userId);
     }
 }
