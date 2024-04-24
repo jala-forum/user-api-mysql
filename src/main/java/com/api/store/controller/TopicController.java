@@ -7,10 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +32,12 @@ public class TopicController {
     @RequestMapping
     public List<Topic> getTopics() {
         return this.topicService.getTopic();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTopicById(@PathVariable String id, HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+
+        this.topicService.deleteById(id, userId);
     }
 }

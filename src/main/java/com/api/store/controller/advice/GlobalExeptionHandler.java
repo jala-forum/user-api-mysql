@@ -1,5 +1,6 @@
 package com.api.store.controller.advice;
 
+import com.api.store.utils.errors.ForbiddenError;
 import com.api.store.utils.errors.GenericError;
 import com.api.store.utils.errors.InvalidParamError;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
@@ -19,5 +20,10 @@ public class GlobalExeptionHandler {
     @ExceptionHandler(GenericError.class)
     public ResponseEntity<String> handleGenericException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ForbiddenError.class)
+    public ResponseEntity<String> handleForbiddenException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
     }
 }
