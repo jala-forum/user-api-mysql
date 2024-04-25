@@ -35,4 +35,9 @@ public class User {
             cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Idea> ideas;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Vote> votes;
 }

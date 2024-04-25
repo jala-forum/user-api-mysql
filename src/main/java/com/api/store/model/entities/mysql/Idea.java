@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,8 +26,8 @@ public class Idea {
 
     @OneToMany(mappedBy = "idea", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    @JsonBackReference
-    private Set<Vote> votes;
+    @JsonManagedReference
+    private List<Vote> votes;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

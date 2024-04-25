@@ -3,12 +3,16 @@ package com.api.store.controller;
 import com.api.store.dto.idea.request.AddIdeaRequestDto;
 import com.api.store.dto.idea.request.AddVoteIdeaDto;
 import com.api.store.model.entities.mysql.Idea;
+import com.api.store.model.entities.mysql.Topic;
+import com.api.store.model.entities.mysql.Vote;
 import com.api.store.service.IdeaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -54,5 +58,18 @@ public class IdeaController {
         String userId = (String) request.getAttribute("userId");
 
         this.ideaService.deleteVoteById(id, userId);
+    }
+
+    @RequestMapping("/vote/{ideaId}")
+    public List<Vote> getVoteByTopic(@PathVariable String ideaId) {
+        List<Vote> votes = this.ideaService.getVoteByIdeaId(ideaId);
+        for (Vote v : votes) {
+            System.out.println(v.getUser().getName());
+        }
+
+        List<Vote> a = new ArrayList<>();
+        a.add(new Vote());
+
+        return votes;
     }
 }

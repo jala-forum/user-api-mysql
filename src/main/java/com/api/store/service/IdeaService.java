@@ -14,6 +14,7 @@ import com.api.store.utils.errors.InvalidParamError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -77,8 +78,10 @@ public class IdeaService {
         Optional<User> optionalUser = this.userRepository.findById(UUID.fromString(userId));
         if (optionalUser.isEmpty()) throw new InvalidParamError("userId");
 
-        Optional<Vote> optionalVote = this.voteRepository.findByUser(optionalUser.get());
-        if (optionalVote.isPresent()) throw new GenericError("User has been already voted");
+        Set<Vote> userVotes = this.voteRepository.findAllByUser(optionalUser.get());
+        List<Vote> votes = userVotes.stream().filter((Vote a) -> a.getIdea().getId().toString().equals(ideaId)).toList();
+
+        if ((long) votes.size() > 0) throw new GenericError("User has been already voted");
 
         Idea idea = optionalIdea.get();
         Vote vote = new Vote();
@@ -96,5 +99,11 @@ public class IdeaService {
         if (!vote.getUser().getId().toString().equals(userId)) throw new ForbiddenError();
 
         this.voteRepository.deleteById(UUID.fromString(voteId));
+    }
+
+    public List<Vote> getVoteByIdeaId(String ideaId) {
+        Optional<Idea> optionalIdea = this.ideaRepository.findById(UUID.fromString(ideaId));
+        if (optionalIdea.isEmpty()) throw new InvalidParamError("ideaId");
+        return optionalIdea.get().getVotes();
     }
 }
