@@ -87,4 +87,14 @@ public class IdeaService {
 
         this.voteRepository.save(vote);
     }
+
+    public void deleteVoteById(String voteId, String userId) {
+        Optional<Vote> optionalVote = this.voteRepository.findById(UUID.fromString(voteId));
+        if (optionalVote.isEmpty()) throw new InvalidParamError("voteId");
+
+        Vote vote = optionalVote.get();
+        if (!vote.getUser().getId().toString().equals(userId)) throw new ForbiddenError();
+
+        this.voteRepository.deleteById(UUID.fromString(voteId));
+    }
 }

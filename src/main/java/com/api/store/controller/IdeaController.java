@@ -48,4 +48,11 @@ public class IdeaController {
 
         this.ideaService.addVote(data.ideaId(), userId);
     }
+
+    @DeleteMapping("/vote/{id}")
+    public void deleteVoteIdea(@PathVariable String id, HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+
+        this.ideaService.deleteVoteById(id, userId);
+    }
 }
