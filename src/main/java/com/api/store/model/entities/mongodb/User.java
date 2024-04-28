@@ -19,7 +19,7 @@ import java.util.UUID;
 @Document("user")
 public class User {
     @MongoId
-    private UUID id;
+    private String id;
 
     private String name;
 

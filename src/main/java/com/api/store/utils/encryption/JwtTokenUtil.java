@@ -1,6 +1,6 @@
 package com.api.store.utils.encryption;
 
-import com.api.store.model.entities.mysql.User;
+import com.api.store.model.entities.mongodb.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -28,7 +28,7 @@ public class JwtTokenUtil {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("parkingcontrol-api")
-                    .withSubject(user.getId().toString())
+                    .withSubject(user.getId())
                     .withClaim("roles", permissions)
                     .sign(algorithm);
         } catch (JWTCreationException exception) {

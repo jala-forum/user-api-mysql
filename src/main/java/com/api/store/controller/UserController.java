@@ -2,7 +2,7 @@ package com.api.store.controller;
 
 import com.api.store.dto.user.request.AddUserRequestDto;
 import com.api.store.dto.user.request.EditUserRequestDto;
-import com.api.store.model.entities.mysql.User;
+import com.api.store.model.entities.mongodb.User;
 import com.api.store.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -48,7 +48,7 @@ public class UserController {
     void editUserById(HttpServletRequest request, @RequestBody() @Valid EditUserRequestDto data) {
         String userId = (String) request.getAttribute("userId");
         User user = new User();
-        user.setId(UUID.fromString(userId));
+        user.setId(userId);
         user.setLogin(data.login());
         user.setName(data.name());
         user.setPassword(data.password());

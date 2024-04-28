@@ -20,7 +20,7 @@ import java.util.UUID;
 @Document("idea")
 public class Idea {
     @MongoId
-    private UUID id;
+    private String id;
 
     private String text;
 

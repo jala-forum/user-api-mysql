@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Vote {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
-    private UUID id;
+    private String id;
 
     private User user;
     private Idea idea;

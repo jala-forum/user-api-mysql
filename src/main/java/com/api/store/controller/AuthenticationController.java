@@ -2,7 +2,7 @@ package com.api.store.controller;
 
 import com.api.store.dto.authentication.request.HashRequestDto;
 import com.api.store.dto.authentication.response.HashResponseDto;
-import com.api.store.model.entities.mysql.User;
+import com.api.store.model.entities.mongodb.User;
 import com.api.store.service.UserService;
 import com.api.store.utils.encryption.JwtTokenUtil;
 import com.api.store.utils.encryption.BcryptConfig;
