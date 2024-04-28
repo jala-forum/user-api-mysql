@@ -21,23 +21,23 @@ services:
     volumes:
       - ./:/app/
     depends_on:
-      - partial_project_mysql
+      - mongodb
     networks:
       - lab4-network
-  partial_project_mysql:
-    image: mysql:latest
-    container_name: partial_project_mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=store
-    ports:
-      - '3306:3306'
-    expose:
-      - '3306'
-    volumes:
-      - lab4-db:/var/lib/mysql
-    networks:
-      - lab4-network
+#  partial_project_mysql:
+#    image: mysql:latest
+#    container_name: partial_project_mysql
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=root
+#      - MYSQL_DATABASE=store
+#    ports:
+#      - '3306:3306'
+#    expose:
+#      - '3306'
+#    volumes:
+#      - lab4-db:/var/lib/mysql
+#    networks:
+#      - lab4-network
   mongodb:
     image: "mongo:latest"
     ports:
