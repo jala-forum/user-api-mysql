@@ -47,8 +47,6 @@ public class JwtMiddlewareValidator extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (JWTVerificationException exception) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
-        } catch (Exception err) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid credentials");
         }
     }
 }

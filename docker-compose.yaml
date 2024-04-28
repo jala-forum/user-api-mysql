@@ -38,7 +38,20 @@ services:
       - lab4-db:/var/lib/mysql
     networks:
       - lab4-network
+  mongodb:
+    image: "mongo:latest"
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=database
+      - MONGODB_DATA_DIR=/data/db
+      - MONDODB_LOG_DIR=/dev/null
+    volumes:
+      - mongo:/data/db
+    networks:
+      - lab4-network
 volumes:
+  mongo:
   lab4-db:
 networks:
   lab4-network:

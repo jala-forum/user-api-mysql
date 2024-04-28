@@ -55,4 +55,9 @@ public class UserController {
 
         this.userService.editById(user);
     }
+
+    @RequestMapping("/migration")
+    List<User> migration() {
+        return this.userService.getAll();
+    }
 }
