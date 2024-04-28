@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class TopicService {
@@ -30,7 +29,7 @@ public class TopicService {
         if (user.isEmpty()) throw new InvalidParamError("authorization");
 
 
-        topic.setUser(user.get());
+        topic.setUserId(user.get().getId());
         this.topicRepository.save(topic);
     }
 
@@ -42,7 +41,7 @@ public class TopicService {
         Optional<Topic> topicOptional = this.topicRepository.findById(id);
         if (topicOptional.isEmpty()) throw new InvalidParamError("id");
 
-        if (!topicOptional.get().getUser().getId().equals(userId)) throw new ForbiddenError();
+        if (!topicOptional.get().getUserId().equals(userId)) throw new ForbiddenError();
         this.topicRepository.deleteById(id);
     }
 }
