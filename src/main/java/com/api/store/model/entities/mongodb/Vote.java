@@ -14,5 +14,5 @@ public class Vote {
     private String id;
 
     private String userId;
-    private Idea idea;
+    private String ideaId;
 }

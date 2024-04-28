@@ -2,9 +2,8 @@ package com.api.store.controller;
 
 import com.api.store.dto.idea.request.AddIdeaRequestDto;
 import com.api.store.dto.idea.request.AddVoteIdeaDto;
-import com.api.store.model.entities.mysql.Idea;
-import com.api.store.model.entities.mysql.Topic;
-import com.api.store.model.entities.mysql.Vote;
+import com.api.store.model.entities.mongodb.Idea;
+import com.api.store.model.entities.mongodb.Vote;
 import com.api.store.service.IdeaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -62,14 +61,6 @@ public class IdeaController {
 
     @RequestMapping("/vote/{ideaId}")
     public List<Vote> getVoteByTopic(@PathVariable String ideaId) {
-        List<Vote> votes = this.ideaService.getVoteByIdeaId(ideaId);
-        for (Vote v : votes) {
-            System.out.println(v.getUser().getName());
-        }
-
-        List<Vote> a = new ArrayList<>();
-        a.add(new Vote());
-
-        return votes;
+        return this.ideaService.getVoteByIdeaId(ideaId);
     }
 }
