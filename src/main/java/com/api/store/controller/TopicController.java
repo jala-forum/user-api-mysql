@@ -1,7 +1,7 @@
 package com.api.store.controller;
 
 import com.api.store.dto.topic.request.AddTopicRequestDto;
-import com.api.store.model.entities.mysql.Topic;
+import com.api.store.model.entities.mongodb.Topic;
 import com.api.store.service.TopicService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
