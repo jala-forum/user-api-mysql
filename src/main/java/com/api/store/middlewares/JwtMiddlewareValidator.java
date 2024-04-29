@@ -31,8 +31,10 @@ public class JwtMiddlewareValidator extends OncePerRequestFilter {
         String requestUri = request.getRequestURI();
         boolean isSignInRouter = requestUri.startsWith("/user") && request.getMethod().equals("POST");
         boolean isAuthRouter = requestUri.startsWith("/auth");
+        boolean isSwaggerApi = requestUri.startsWith("/api-docs");
+        boolean isSwaggerUi = requestUri.startsWith("/swagger-ui");
 
-        if (isAuthRouter || isSignInRouter) {
+        if (isAuthRouter || isSignInRouter || isSwaggerApi || isSwaggerUi) {
             filterChain.doFilter(request, response);
             return;
         }
