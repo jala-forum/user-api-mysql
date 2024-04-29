@@ -3,6 +3,7 @@ package com.api.store.controller;
 import com.api.store.dto.user.request.AddUserRequestDto;
 import com.api.store.dto.user.request.EditUserRequestDto;
 import com.api.store.model.entities.mongodb.User;
+import com.api.store.service.MigrationService;
 import com.api.store.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -16,10 +17,12 @@ import java.util.UUID;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final MigrationService migrationService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, MigrationService migrationService) {
         this.userService = userService;
+        this.migrationService = migrationService;
     }
 
     @PostMapping
@@ -57,7 +60,7 @@ public class UserController {
     }
 
     @RequestMapping("/migration")
-    List<User> migration() {
-        return this.userService.getAll();
+    void migration() {
+        this.migrationService.migrateMysqlToMongodb();
     }
 }
