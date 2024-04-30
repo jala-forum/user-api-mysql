@@ -31,6 +31,7 @@ public class UserServiceTests {
     public void init() {
         MockitoAnnotations.openMocks(this);
         sut = new UserService(userRepository);
+        user.setId("fake-id");
         user.setLogin("fake-login");
         user.setPassword("fake-password");
         user.setName("fake-name");
@@ -47,8 +48,8 @@ public class UserServiceTests {
     @Test
     @DisplayName("should return an error if user already exists")
     void save_IfUserAlreadyExists() {
-        Optional<User> userOptional = Optional.of(user);
-        Mockito.when(userRepository.findByLogin(ArgumentMatchers.anyString())).thenReturn(userOptional);
+        Optional<User> optionalUser = Optional.of(user);
+        Mockito.when(userRepository.findByLogin(ArgumentMatchers.anyString())).thenReturn(optionalUser);
 
         GenericError error = Assertions.assertThrows(GenericError.class, () -> {
             sut.save(user);
@@ -84,5 +85,16 @@ public class UserServiceTests {
         sut.getById(user.getId());
 
         Mockito.verify(userRepository).findById(user.getId());
+    }
+
+    @Test
+    @DisplayName("should return user if success")
+    void getById_ReturnUserIfSuccess() {
+        Optional<User> optionalUser = Optional.of(user);
+        Mockito.when(userRepository.findById(ArgumentMatchers.anyString())).thenReturn(optionalUser);
+
+        User sutUser = sut.getById(user.getId());
+
+        Assertions.assertEquals(user, sutUser);
     }
 }
