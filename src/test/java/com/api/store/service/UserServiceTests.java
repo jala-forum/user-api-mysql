@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.event.annotation.PrepareTestInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,5 +132,17 @@ public class UserServiceTests {
         });
 
         Assertions.assertEquals("Invalid param user_id", error.getMessage());
+    }
+
+    @Test
+    @DisplayName("should call findByLogin with correct values")
+    void editById_CallFindByLoginWithCorrectValues() {
+        Mockito.mockStatic(BcryptConfig.class);
+        Optional<User> optionalUser = Optional.of(user);
+        Mockito.when(userRepository.findById(ArgumentMatchers.anyString())).thenReturn(optionalUser);
+
+        sut.editById(user);
+
+        Mockito.verify(userRepository).findByLogin(user.getLogin());
     }
 }
