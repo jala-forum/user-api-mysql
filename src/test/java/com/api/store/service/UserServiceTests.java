@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -112,7 +113,6 @@ public class UserServiceTests {
     @Test
     @DisplayName("should call findById with correct values")
     void editById_CallFindByIdWithCorrectValues() {
-        Mockito.mockStatic(BcryptConfig.class);
         Optional<User> optionalUser = Optional.of(user);
         Mockito.when(userRepository.findById(ArgumentMatchers.anyString())).thenReturn(optionalUser);
 
@@ -144,5 +144,24 @@ public class UserServiceTests {
         sut.editById(user);
 
         Mockito.verify(userRepository).findByLogin(user.getLogin());
+    }
+
+    @Test
+    @DisplayName("should throw an error if already exists an user with this login")
+    void editById_ThrowAnErrorIfLoginAlreadyExists() {
+        Optional<User> optionalUser = Optional.of(user);
+        Mockito.when(userRepository.findById(ArgumentMatchers.anyString())).thenReturn(optionalUser);
+
+        User userForEmailOptional = new User();
+        BeanUtils.copyProperties(user, userForEmailOptional);
+        userForEmailOptional.setLogin("fake-email");
+        Optional<User> userByEmailOptional = Optional.of(userForEmailOptional);
+        Mockito.when(userRepository.findByLogin(ArgumentMatchers.anyString())).thenReturn(userByEmailOptional);
+
+        GenericError error = Assertions.assertThrows(GenericError.class, () -> {
+            sut.editById(user);
+        });
+
+        Assertions.assertEquals("User already exists", error.getMessage());
     }
 }
