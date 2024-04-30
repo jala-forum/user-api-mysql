@@ -207,4 +207,15 @@ public class UserServiceTests {
 
         Assertions.assertEquals("Invalid param login", error.getMessage());
     }
+
+    @Test
+    @DisplayName("should return an user if success")
+    void getByLogin_ReturnUserIfSuccess() {
+        Optional<User> userOptional = Optional.of(user);
+        Mockito.when(userRepository.findByLogin(ArgumentMatchers.anyString())).thenReturn(userOptional);
+
+        User sutUser = sut.getByLogin(user.getLogin());
+
+        Assertions.assertEquals(user, sutUser);
+    }
 }
