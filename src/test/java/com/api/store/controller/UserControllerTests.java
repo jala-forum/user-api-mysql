@@ -4,6 +4,8 @@ import com.api.store.dto.user.request.AddUserRequestDto;
 import com.api.store.model.entities.mongodb.User;
 import com.api.store.service.MigrationService;
 import com.api.store.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,9 @@ class UserControllerTests {
     @Mock
     MigrationService migrationService;
 
+    @Mock
+    private HttpServletRequest request;
+
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
@@ -33,7 +38,7 @@ class UserControllerTests {
 
     @Test
     @DisplayName("should call user service with correct values")
-    void CreateUser() {
+    void AddUser() {
         AddUserRequestDto dto = new AddUserRequestDto("Test", "teste@gmail.com", "StrongPassword@123");
         sut.addUser(dto);
 
@@ -44,5 +49,17 @@ class UserControllerTests {
 
         Mockito.verify(userService, Mockito.times(1)).save(ArgumentMatchers.any(User.class));
         Mockito.verify(userService, Mockito.times(1)).save(ArgumentMatchers.refEq(user));
+    }
+
+    @Test
+    @DisplayName("should call getAttribute with correct values and return user")
+    void getUserById() {
+        Mockito.when(request.getAttribute(ArgumentMatchers.anyString())).thenReturn("fake-user-id");
+        User userInput = new User();
+        Mockito.when(userService.getById(ArgumentMatchers.anyString())).thenReturn(userInput);
+        User userOutput = sut.getUserById(request);
+
+        Mockito.verify(request, Mockito.times(1)).getAttribute("userId");
+        Assertions.assertEquals(userInput, userOutput);
     }
 }
