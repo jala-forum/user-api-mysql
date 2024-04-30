@@ -5,10 +5,7 @@ import com.api.store.model.entities.mongodb.User;
 import com.api.store.utils.encryption.BcryptConfig;
 import com.api.store.utils.errors.GenericError;
 import com.api.store.utils.errors.InvalidParamError;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -30,6 +27,8 @@ public class UserServiceTests {
 
     User user = new User();
 
+    private MockedStatic<BcryptConfig> mockStatic;
+
 
     @BeforeEach
     public void init() {
@@ -39,6 +38,13 @@ public class UserServiceTests {
         user.setLogin("fake-login");
         user.setPassword("fake-password");
         user.setName("fake-name");
+
+        mockStatic = Mockito.mockStatic(BcryptConfig.class);
+    }
+
+    @AfterEach
+    public void afterEach() {
+        mockStatic.close();
     }
 
     @Test
@@ -137,7 +143,6 @@ public class UserServiceTests {
     @Test
     @DisplayName("should call findByLogin with correct values")
     void editById_CallFindByLoginWithCorrectValues() {
-        Mockito.mockStatic(BcryptConfig.class);
         Optional<User> optionalUser = Optional.of(user);
         Mockito.when(userRepository.findById(ArgumentMatchers.anyString())).thenReturn(optionalUser);
 
@@ -163,5 +168,19 @@ public class UserServiceTests {
         });
 
         Assertions.assertEquals("User already exists", error.getMessage());
+    }
+
+    @Test
+    @DisplayName("should call mongo repository save method with correct value")
+    void editById_CallSaveMethodWithCorrectValue() {
+        Optional<User> emptyOptionalUser = Optional.empty();
+        Mockito.when(userRepository.findByLogin(ArgumentMatchers.anyString())).thenReturn(emptyOptionalUser);
+
+        Optional<User> optionalUser = Optional.of(user);
+        Mockito.when(userRepository.findById(ArgumentMatchers.anyString())).thenReturn(optionalUser);
+
+        sut.editById(user);
+
+        Mockito.verify(userRepository).save(user);
     }
 }
