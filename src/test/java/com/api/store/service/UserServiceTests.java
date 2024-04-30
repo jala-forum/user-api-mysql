@@ -1,6 +1,5 @@
 package com.api.store.service;
 
-import com.api.store.controller.UserController;
 import com.api.store.infra.database.mongodb.repositories.MongoUserRepository;
 import com.api.store.model.entities.mongodb.User;
 import com.api.store.utils.errors.GenericError;
@@ -77,5 +76,13 @@ public class UserServiceTests {
         List<User> sutUsers = sut.getAll();
 
         Assertions.assertEquals(users, sutUsers);
+    }
+
+    @Test
+    @DisplayName("should call findById method with correct values")
+    void getById_CallFindByIdWithCorrectValues() {
+        sut.getById(user.getId());
+
+        Mockito.verify(userRepository).findById(user.getId());
     }
 }
