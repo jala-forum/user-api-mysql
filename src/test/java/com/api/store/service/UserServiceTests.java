@@ -55,4 +55,12 @@ public class UserServiceTests {
 
         Assertions.assertEquals("User already exists", error.getMessage());
     }
+
+    @Test
+    @DisplayName("should call save from mongo repository with correct values")
+    public void save_SaveMethodWithCorrectValues() {
+        sut.save(user);
+
+        Mockito.verify(userRepository).save(user);
+    }
 }
