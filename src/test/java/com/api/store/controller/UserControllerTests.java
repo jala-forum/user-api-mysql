@@ -62,4 +62,14 @@ class UserControllerTests {
         Mockito.verify(request, Mockito.times(1)).getAttribute("userId");
         Assertions.assertEquals(userInput, userOutput);
     }
+
+    @Test
+    @DisplayName("should call getAttributeRequest with correct values and user service")
+    void deleteUserById() {
+        Mockito.when(request.getAttribute(ArgumentMatchers.anyString())).thenReturn("fake-user-id");
+        sut.deleteUserById(request);
+
+        Mockito.verify(request, Mockito.times(1)).getAttribute("userId");
+        Mockito.verify(userService, Mockito.times(1)).deleteById("fake-user-id");
+    }
 }
