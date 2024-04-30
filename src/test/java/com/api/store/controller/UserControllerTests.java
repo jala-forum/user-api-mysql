@@ -1,6 +1,7 @@
 package com.api.store.controller;
 
 import com.api.store.dto.user.request.AddUserRequestDto;
+import com.api.store.dto.user.request.EditUserRequestDto;
 import com.api.store.model.entities.mongodb.User;
 import com.api.store.service.MigrationService;
 import com.api.store.service.UserService;
@@ -71,5 +72,23 @@ class UserControllerTests {
 
         Mockito.verify(request, Mockito.times(1)).getAttribute("userId");
         Mockito.verify(userService, Mockito.times(1)).deleteById("fake-user-id");
+    }
+
+    @Test
+    @DisplayName("should call getAttribute with correct value")
+    void editUserById() {
+        Mockito.when(request.getAttribute(ArgumentMatchers.anyString())).thenReturn("fake-user-id");
+
+        EditUserRequestDto dto = new EditUserRequestDto("Test", "teste@gmail.com", "StrongPassword@123");
+        sut.editUserById(request, dto);
+
+        User user = new User();
+        user.setId("fake-user-id");
+        user.setName(dto.name());
+        user.setLogin(dto.login());
+        user.setPassword(dto.password());
+
+        Mockito.verify(request, Mockito.times(1)).getAttribute("userId");
+        Mockito.verify(userService, Mockito.times(1)).editById(ArgumentMatchers.refEq(user));
     }
 }
