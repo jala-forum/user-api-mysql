@@ -183,4 +183,15 @@ public class UserServiceTests {
 
         Mockito.verify(userRepository).save(user);
     }
+
+    @Test
+    @DisplayName("should call findByLogin with correct value")
+    void getByLogin_CallFindByLoginWithCorrectValue() {
+        Optional<User> userOptional = Optional.of(user);
+        Mockito.when(userRepository.findByLogin(ArgumentMatchers.anyString())).thenReturn(userOptional);
+
+        sut.getByLogin(user.getLogin());
+
+        Mockito.verify(userRepository).findByLogin(user.getLogin());
+    }
 }
