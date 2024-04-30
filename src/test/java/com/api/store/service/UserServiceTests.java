@@ -4,6 +4,7 @@ import com.api.store.infra.database.mongodb.repositories.MongoUserRepository;
 import com.api.store.model.entities.mongodb.User;
 import com.api.store.utils.encryption.BcryptConfig;
 import com.api.store.utils.errors.GenericError;
+import com.api.store.utils.errors.InvalidParamError;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -119,5 +120,18 @@ public class UserServiceTests {
         sut.editById(user);
 
         Mockito.verify(userRepository).findById(user.getId());
+    }
+
+    @Test
+    @DisplayName("should throw if userByIdOptional is empty")
+    void editById_ThrowIfUserByIdOptionalIsEmpty() {
+        Optional<User> optionalUser = Optional.empty();
+        Mockito.when(userRepository.findById(ArgumentMatchers.anyString())).thenReturn(optionalUser);
+
+        InvalidParamError error = Assertions.assertThrows(InvalidParamError.class, () -> {
+            sut.editById(user);
+        });
+
+        Assertions.assertEquals("Invalid param user_id", error.getMessage());
     }
 }
