@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping
-    void addUser(@RequestBody @Valid AddUserRequestDto data) {
+    public void addUser(@RequestBody @Valid AddUserRequestDto data) {
         User user = new User();
         user.setName(data.name());
         user.setLogin(data.login());
