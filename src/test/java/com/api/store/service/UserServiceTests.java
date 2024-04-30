@@ -13,6 +13,8 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -62,5 +64,18 @@ public class UserServiceTests {
         sut.save(user);
 
         Mockito.verify(userRepository).save(user);
+    }
+
+    @Test
+    @DisplayName("should return all users")
+    public void getAll_ReturnAllUsers() {
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        users.add(user);
+
+        Mockito.when(userRepository.findAll()).thenReturn(users);
+        List<User> sutUsers = sut.getAll();
+
+        Assertions.assertEquals(users, sutUsers);
     }
 }
