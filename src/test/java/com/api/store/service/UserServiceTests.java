@@ -194,4 +194,17 @@ public class UserServiceTests {
 
         Mockito.verify(userRepository).findByLogin(user.getLogin());
     }
+
+    @Test
+    @DisplayName("should throw an error if findByLogin returns empty")
+    void getByLogin_ThrowAnErrorIfFindByLoginReturnsEmpty() {
+        Optional<User> userOptional = Optional.empty();
+        Mockito.when(userRepository.findByLogin(ArgumentMatchers.anyString())).thenReturn(userOptional);
+
+        InvalidParamError error = Assertions.assertThrows(InvalidParamError.class, () -> {
+            sut.getByLogin(user.getLogin());
+        });
+
+        Assertions.assertEquals("Invalid param login", error.getMessage());
+    }
 }
