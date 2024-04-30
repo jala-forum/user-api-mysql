@@ -97,4 +97,12 @@ public class UserServiceTests {
 
         Assertions.assertEquals(user, sutUser);
     }
+
+    @Test
+    @DisplayName("should call deleteById with correct values")
+    void deleteById_CallDeleteByIdWithCorrectValues() {
+        sut.deleteById(user.getId());
+
+        Mockito.verify(userRepository).deleteById(user.getId());
+    }
 }
