@@ -2,6 +2,7 @@ package com.api.store.service;
 
 import com.api.store.infra.database.mongodb.repositories.MongoUserRepository;
 import com.api.store.model.entities.mongodb.User;
+import com.api.store.utils.encryption.BcryptConfig;
 import com.api.store.utils.errors.GenericError;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.event.annotation.PrepareTestInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class UserServiceTests {
     MongoUserRepository userRepository;
 
     User user = new User();
+
 
     @BeforeEach
     public void init() {
@@ -104,5 +107,17 @@ public class UserServiceTests {
         sut.deleteById(user.getId());
 
         Mockito.verify(userRepository).deleteById(user.getId());
+    }
+
+    @Test
+    @DisplayName("should call findById with correct values")
+    void editById_CallFindByIdWithCorrectValues() {
+        Mockito.mockStatic(BcryptConfig.class);
+        Optional<User> optionalUser = Optional.of(user);
+        Mockito.when(userRepository.findById(ArgumentMatchers.anyString())).thenReturn(optionalUser);
+
+        sut.editById(user);
+
+        Mockito.verify(userRepository).findById(user.getId());
     }
 }
