@@ -9,10 +9,7 @@ import com.api.store.utils.encryption.BcryptConfig;
 import com.api.store.utils.errors.InvalidParamError;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -36,5 +33,10 @@ public class AuthenticationController {
          String jwt = this.jwtTokenUtil.generateToken(userByEmail);
 
         return new HashResponseDto("Bearer " + jwt);
+    }
+
+    @RequestMapping("/{token}")
+    public boolean validateToken(@PathVariable String token) {
+        return this.jwtTokenUtil.verify(token);
     }
 }

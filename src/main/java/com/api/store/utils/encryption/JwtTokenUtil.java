@@ -56,4 +56,18 @@ public class JwtTokenUtil {
     private Instant generateExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
+
+    public boolean verify(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        try {
+            JWT.require(algorithm)
+                    .withIssuer("parkingcontrol-api")
+                    .build()
+                    .verify(token);
+
+            return true;
+        } catch (JWTVerificationException exception) {
+            return false;
+        }
+    }
 }

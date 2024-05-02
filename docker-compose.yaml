@@ -15,7 +15,8 @@ services:
         "spring.datasource.username": "root",
         "spring.datasource.password": "root",
         "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL8Dialect",
-        "spring.jpa.hibernate.ddl-auto" : "update"
+        "spring.jpa.hibernate.ddl-auto" : "update",
+        "spring.data.mongodb.uri": "mongodb://mongodb:27017/products"
 
       }'
     command: sh entrypoint-docker.sh
